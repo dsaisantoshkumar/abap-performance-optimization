@@ -44,3 +44,60 @@ Detailed documentation covering analysis methodology, implementation approaches,
 Project Structure
 
 The repository contains documentation organized by optimization category, including business problem definition, technical analysis, solution implementation details, and measurable results.
+
+## 🏗️ Architecture Overview
+
+### System Landscape
+
+SAP S/4HANA 2022
+   │
+   ├── ABAP Application Layer
+   │       ├── RAP Business Object
+   │       ├── CDS Views (Interface + Consumption)
+   │       └── AMDP Procedures
+   │
+   └── SAP HANA Database
+           └── Optimized SQL Execution
+
+### Before Optimization Flow
+
+Report Program
+   ↓
+SELECT inside LOOP
+   ↓
+Multiple DB Calls
+   ↓
+Full Table Scan
+   ↓
+12+ Minutes Runtime
+
+### After Optimization Flow
+
+CDS Aggregation Layer
+   ↓
+Single Optimized DB Call
+   ↓
+Reduced Data Transfer
+   ↓
+Indexed Filtering
+   ↓
+2 Minutes Runtime
+
+### RAP + CDS Data Flow
+
+CDS Interface View
+      ↓
+CDS Consumption View
+      ↓
+RAP Behavior Definition
+      ↓
+Fiori/UI Service (OData V4)
+
+## 🧠 Development & Consulting Approach
+
+- **Analyzed** functional requirements provided by finance stakeholders
+- **Identified** performance bottlenecks using ST05 SQL Trace
+- **Used** SAT to analyze ABAP runtime behavior
+- **Replaced** nested SELECT logic with CDS-based aggregation
+- **Coordinated** transport movement across DEV → QA → PROD
+- **Documented** technical solution for KT and support team
